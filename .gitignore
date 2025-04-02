@@ -1,0 +1,40 @@
+node_modules/
+npm-debug.log
+yarn-error.log
+dist/
+build/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+logs/
+*.log
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# Dependency directories
+coverage/
+
+# Editor directories and files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# OS files
+*.swp
+*.swo
+
+# Ignore local database files
+*.sqlite
+*.sqlite3
+
+# Ignore compiled JS files
+*.tsbuildinfo
+
+# Ignore temporary files
+/tmp
+/out

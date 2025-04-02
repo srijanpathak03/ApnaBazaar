@@ -30,16 +30,19 @@ const NavbarAuthButtons = () => {
             )}
           </div>
           
+          <Link 
+            to={isVendor ? "/vendor/profile" : "/profile"} 
+            className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
+          >
+            Your Profile
+          </Link>
+          
           {isVendor && (
             <Link to="/vendor/dashboard" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 flex items-center">
               <Store className="w-4 h-4 mr-2 text-indigo-600 dark:text-indigo-400" />
               Vendor Dashboard
             </Link>
           )}
-          
-          <Link to="/profile" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
-            Your Profile
-          </Link>
           
           <Link to="/orders" className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
             Your Orders

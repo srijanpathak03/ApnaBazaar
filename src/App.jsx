@@ -15,6 +15,8 @@ import Signup from './pages/Signup';
 import VendorDashboard from './pages/VendorDashboard';
 import CartDrawer from './components/CartDrawer';
 import { useAuth } from './context/AuthContext';
+import UserProfile from './pages/UserProfile';
+import VendorProfile from './pages/VendorProfile';
 
 // Protected route component for vendor routes
 const VendorRoute = ({ children }) => {
@@ -69,6 +71,25 @@ const AppRoutes = () => {
               <VendorRoute>
                 <VendorDashboard />
               </VendorRoute>
+            } 
+          />
+          
+          {/* Profile Routes */}
+          <Route 
+            path="/profile" 
+            element={
+              isAuthenticated ? 
+                (isVendor ? <Navigate to="/vendor/profile" replace /> : <UserProfile />) : 
+                <Navigate to="/login" replace />
+            } 
+          />
+          
+          <Route 
+            path="/vendor/profile" 
+            element={
+              isAuthenticated && isVendor ? 
+                <VendorProfile /> : 
+                <Navigate to={isAuthenticated ? "/profile" : "/login"} replace />
             } 
           />
           

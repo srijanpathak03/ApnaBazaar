@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MarketCard from '../components/MarketCard';
+import ProtectedMarketCard from '../components/ProtectedMarketCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { markets } from '../data/marketData';
 import { Search, Filter, Store } from 'lucide-react';
@@ -154,7 +154,7 @@ const Market = () => {
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
         >
           {filteredMarkets.map((market) => (
-            <MarketCard key={market.id} {...market} />
+            <ProtectedMarketCard key={market.id} {...market} />
           ))}
         </motion.div>
       )}

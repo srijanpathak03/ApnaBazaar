@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   Store, Scale, Tag, Sun, Moon, ShoppingBag, ShoppingCart, 
-  Menu, X, ChevronDown, Sparkles, User
+  Menu, X, ChevronDown, Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import { useCart } from '../context/CartContext';
+import NavbarAuthButtons from './NavbarAuthButtons';
 
 const Navbar = () => {
   const { darkMode, toggleDarkMode } = useTheme();
@@ -79,7 +80,7 @@ const Navbar = () => {
           </NavLink>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-6">
+          <div className="hidden md:flex items-center space-x-4">
             <NavLink to="/" className={navLinkClass}>
               <Store className="w-5 h-5 mr-2" />
               <span>Market</span>
@@ -139,16 +140,8 @@ const Navbar = () => {
               </AnimatePresence>
             </motion.button>
             
-            {/* User Button - Optional */}
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => alert("User profile coming soon!")}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200 transition-colors duration-200 hover:bg-gray-200 dark:hover:bg-gray-600"
-              aria-label="User profile"
-            >
-              <User className="w-5 h-5" />
-            </motion.button>
+            {/* Auth Buttons */}
+            <NavbarAuthButtons />
           </div>
 
           {/* Mobile Menu Button */}
@@ -239,6 +232,29 @@ const Navbar = () => {
                 <span className="font-medium">Pricing</span>
               </NavLink>
               
+              {/* Mobile Auth Links */}
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                <NavLink 
+                  to="/login" 
+                  className={({ isActive }) => `
+                    flex items-center px-3 py-3 rounded-lg ${
+                      isActive 
+                      ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' 
+                      : 'text-gray-600 dark:text-gray-200'
+                    }
+                  `}
+                >
+                  <span className="font-medium">Log In</span>
+                </NavLink>
+                
+                <NavLink 
+                  to="/signup" 
+                  className="flex items-center px-3 py-3 mt-2 rounded-lg bg-indigo-600 text-white"
+                >
+                  <span className="font-medium">Sign Up</span>
+                </NavLink>
+              </div>
+              
               <div className="flex items-center justify-between pt-4 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex items-center">
                   <Sparkles className="w-5 h-5 text-yellow-500 mr-2" />
@@ -250,8 +266,9 @@ const Navbar = () => {
                     darkMode ? 'bg-indigo-600' : 'bg-gray-300 dark:bg-gray-600'
                   }`}
                 >
+                  <span className="sr-only">Toggle dark mode</span>
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                    className={`inline-block h-4 w-4 rounded-full bg-white dark:bg-gray-200 transition-transform ${
                       darkMode ? 'translate-x-6' : 'translate-x-1'
                     }`}
                   />

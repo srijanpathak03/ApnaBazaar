@@ -1,8 +1,8 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
-import { mockLogin, mockSignup } from '../services/mockAuthService';
+import axios from 'axios';
 
 const AuthContext = createContext();
-const IS_DEVELOPMENT = true; // Set to false when the real backend is ready
+const API_URL = 'http://localhost:5000/api';
 
 export const useAuth = () => useContext(AuthContext);
 
@@ -11,124 +11,96 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    // Check if user is already logged in (from localStorage)
-    const user = localStorage.getItem('user');
-    if (user) {
-      try {
-        setCurrentUser(JSON.parse(user));
-      } catch (e) {
-        console.error('Failed to parse user from localStorage:', e);
-        localStorage.removeItem('user');
-      }
+  // Get the token from localStorage
+  const getToken = () => localStorage.getItem('token');
+
+  // Set up axios with auth headers
+  const api = axios.create({
+    baseURL: API_URL,
+    headers: {
+      'Content-Type': 'application/json'
     }
-    setLoading(false);
+  });
+
+  // Add auth token to requests if available
+  api.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+      if (token) {
+        config.headers['Authorization'] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  // Check if user is already logged in
+  useEffect(() => {
+    const checkLoggedIn = async () => {
+      try {
+        const token = getToken();
+        if (token) {
+          const response = await api.get('/auth/me');
+          setCurrentUser(response.data.user);
+        }
+      } catch (err) {
+        console.error('Authentication error:', err);
+        localStorage.removeItem('token');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkLoggedIn();
   }, []);
 
+  // Login user
   const login = async (email, password, isVendor = false) => {
     try {
       setLoading(true);
       setError(null);
       
-      let userData;
+      const response = await api.post('/auth/login', { email, password, isVendor });
+      const { user, token } = response.data;
       
-      if (IS_DEVELOPMENT) {
-        // Use mock service in development
-        userData = await mockLogin(email, password, isVendor);
-      } else {
-        // Use real API in production
-        const response = await fetch(`/api/${isVendor ? 'vendor' : 'user'}/login`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ email, password }),
-        });
-        
-        // Check if the response is empty
-        const text = await response.text();
-        if (!text) {
-          throw new Error('Server returned an empty response');
-        }
-        
-        // Try to parse JSON
-        try {
-          userData = JSON.parse(text);
-        } catch (e) {
-          console.error('Failed to parse JSON response:', text);
-          throw new Error('Invalid response from server');
-        }
-        
-        if (!response.ok) {
-          throw new Error(userData.message || 'Login failed');
-        }
-      }
+      localStorage.setItem('token', token);
+      setCurrentUser(user);
       
-      localStorage.setItem('user', JSON.stringify(userData));
-      localStorage.setItem('token', userData.token);
-      setCurrentUser(userData);
-      return userData;
+      return user;
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || 'Login failed. Please try again.');
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
+  // Register user
   const signup = async (userData, isVendor = false) => {
     try {
       setLoading(true);
       setError(null);
       
-      let responseData;
+      const role = isVendor ? 'vendor' : 'user';
+      const response = await api.post('/auth/signup', { ...userData, role });
+      const { user, token } = response.data;
       
-      if (IS_DEVELOPMENT) {
-        // Use mock service in development
-        responseData = await mockSignup(userData, isVendor);
-      } else {
-        // Use real API in production
-        const response = await fetch(`/api/${isVendor ? 'vendor' : 'user'}/signup`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(userData),
-        });
-        
-        // Check if the response is empty
-        const text = await response.text();
-        if (!text) {
-          throw new Error('Server returned an empty response');
-        }
-        
-        // Try to parse JSON
-        try {
-          responseData = JSON.parse(text);
-        } catch (e) {
-          console.error('Failed to parse JSON response:', text);
-          throw new Error('Invalid response from server');
-        }
-        
-        if (!response.ok) {
-          throw new Error(responseData.message || 'Signup failed');
-        }
-      }
+      localStorage.setItem('token', token);
+      setCurrentUser(user);
       
-      localStorage.setItem('user', JSON.stringify(responseData));
-      localStorage.setItem('token', responseData.token);
-      setCurrentUser(responseData);
-      return responseData;
+      return user;
     } catch (err) {
-      setError(err.message);
+      setError(err.response?.data?.message || 'Registration failed. Please try again.');
       throw err;
     } finally {
       setLoading(false);
     }
   };
 
+  // Logout user
   const logout = () => {
-    localStorage.removeItem('user');
     localStorage.removeItem('token');
     setCurrentUser(null);
   };

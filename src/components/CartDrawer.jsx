@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, ShoppingCart, Plus, Minus, Trash2, CreditCard, ShoppingBag, AlertCircle } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const CartDrawer = () => {
   const { 
@@ -14,6 +15,7 @@ const CartDrawer = () => {
     clearCart, 
     setCartOpen 
   } = useCart();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const drawerVariants = {
@@ -59,6 +61,22 @@ const CartDrawer = () => {
   const handleNavigateToProduct = (item) => {
     navigate(`/market/${item.marketId}/shop/${item.shopId}/product/${item.id}`);
     setCartOpen(false);
+  };
+  
+  const handleCheckout = () => {
+    if (isAuthenticated) {
+      navigate('/checkout', { 
+        state: { 
+          cartItems, 
+          total: (cartTotal + cartTotal * 0.18).toFixed(2),
+          razorpayKeyId: 'rzp_test_XaNlidEzBNbJzK'
+        }
+      });
+      setCartOpen(false);
+    } else {
+      navigate('/login?redirect=checkout');
+      setCartOpen(false);
+    }
   };
 
   return (
@@ -237,7 +255,7 @@ const CartDrawer = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       className="w-full py-3 px-4 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium rounded-lg transition-colors flex items-center justify-center space-x-2"
-                      onClick={() => alert('Checkout functionality coming soon!')}
+                      onClick={handleCheckout}
                     >
                       <CreditCard className="w-5 h-5" />
                       <span>Checkout</span>

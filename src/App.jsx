@@ -14,6 +14,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import VendorDashboard from './pages/VendorDashboard';
 import CartDrawer from './components/CartDrawer';
+import Checkout from './pages/Checkout';
 import { useAuth } from './context/AuthContext';
 import UserProfile from './pages/UserProfile';
 import VendorProfile from './pages/VendorProfile';
@@ -28,6 +29,21 @@ const VendorRoute = ({ children }) => {
   
   if (!isAuthenticated || !isVendor) {
     return <Navigate to="/login" replace />;
+  }
+  
+  return children;
+};
+
+// Protected route component for user routes
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, userLoading } = useAuth();
+  
+  if (userLoading) {
+    return <div className="p-8 text-center">Loading...</div>;
+  }
+  
+  if (!isAuthenticated) {
+    return <Navigate to="/login?redirect=checkout" replace />;
   }
   
   return children;
@@ -63,6 +79,16 @@ const AppRoutes = () => {
           <Route path="/pricing" element={<Pricing />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          
+          {/* Checkout Route */}
+          <Route 
+            path="/checkout" 
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            } 
+          />
           
           {/* Vendor Dashboard Routes */}
           <Route 

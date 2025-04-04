@@ -2,10 +2,10 @@
   "name": "apnabazaar-server",
   "version": "1.0.0",
   "description": "Server for ApnaBazaar marketplace",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

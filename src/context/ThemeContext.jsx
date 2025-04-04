@@ -12,10 +12,10 @@ export const ThemeProvider = ({ children }) => {
       return JSON.parse(savedMode);
     }
     
-    // Fall back to system preference
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return true;
-    }
+    // // Fall back to system preference
+    // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    //   return true;
+    // }
     
     return false;
   });

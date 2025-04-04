@@ -241,6 +241,14 @@ const ProductDetails = () => {
                 src={product.image}
                 alt={product.name}
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.style.display = 'none';
+                  e.target.parentElement.classList.add('bg-gray-200', 'dark:bg-gray-600', 'flex', 'items-center', 'justify-center');
+                  const placeholder = document.createElement('div');
+                  placeholder.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>`;
+                  e.target.parentElement.appendChild(placeholder);
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               <div className="absolute bottom-4 right-4 flex space-x-2">
@@ -600,6 +608,14 @@ const ProductDetails = () => {
                     src={relatedProduct.image}
                     alt={relatedProduct.name}
                     className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.style.display = 'none';
+                      e.target.parentElement.classList.add('bg-gray-200', 'dark:bg-gray-700', 'flex', 'items-center', 'justify-center');
+                      const placeholder = document.createElement('div');
+                      placeholder.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" /></svg>`;
+                      e.target.parentElement.appendChild(placeholder);
+                    }}
                   />
                 </div>
                 <div className="p-4">

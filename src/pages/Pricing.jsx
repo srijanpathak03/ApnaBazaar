@@ -32,8 +32,8 @@ const Pricing = () => {
     {
       name: 'Standard',
       description: 'All essentials for growing businesses',
-      monthlyPrice: 599,
-      yearlyPrice: 5990,
+      monthlyPrice: 149,
+      yearlyPrice: 1199,
       features: [
         { name: 'List up to 50 products', included: true },
         { name: 'Advanced analytics', included: true },
@@ -53,8 +53,8 @@ const Pricing = () => {
     {
       name: 'Premium',
       description: 'Advanced features for established businesses',
-      monthlyPrice: 1299,
-      yearlyPrice: 13990,
+      monthlyPrice: 299,
+      yearlyPrice: 2999,
       features: [
         { name: 'Unlimited products', included: true },
         { name: 'Premium analytics', included: true },
@@ -65,7 +65,7 @@ const Pricing = () => {
         { name: 'Top placement in search', included: true },
         { name: 'Featured promotional banners', included: true },
         { name: 'Bulk product upload', included: true },
-        { name: 'API access', included: true },
+        { name: 'Fairs Discount', included: true },
       ],
       cta: 'Go Premium',
       btnColor: 'bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700',

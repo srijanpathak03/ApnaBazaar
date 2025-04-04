@@ -139,7 +139,7 @@ export const markets = {
           description: 'Authentic Indian ethnic wear for all occasions',
           rating: 4.6,
           speciality: 'Handcrafted traditional garments',
-          image: 'https://images.unsplash.com/photo-1582788215775-205e472df347?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+          image: 'https://res.cloudinary.com/dt6ekj5b3/image/upload/v1743793129/twugc4auooodbuetgoa6.jpg'
         },
         {
           id: 'street-bites',
@@ -148,7 +148,7 @@ export const markets = {
           description: 'Popular street food stall with local delicacies',
           rating: 4.7,
           speciality: 'Chaat and spicy snacks',
-          image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80'
+          image: 'https://res.cloudinary.com/dt6ekj5b3/image/upload/v1743793129/twugc4auooodbuetgoa6.jpg'
         }
       ]
     },
@@ -156,7 +156,7 @@ export const markets = {
       id: 'chandni-chowk',
       name: 'Chandni Chowk',
       description: 'One of the oldest and busiest markets in Old Delhi, famous for traditional Indian wear and street food.',
-      image: 'https://images.unsplash.com/photo-1570168007204-dfb528c6958f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      image: 'https://res.cloudinary.com/dt6ekj5b3/image/upload/v1743793129/twugc4auooodbuetgoa6.jpg',
       location: 'Old Delhi',
       visitors: '100K+ weekly visitors',
       timing: '9:30 AM - 8:00 PM',
@@ -212,7 +212,7 @@ export const markets = {
       id: 'lajpat-nagar',
       name: 'Lajpat Nagar Central Market',
       description: 'Popular shopping destination known for traditional Indian clothing, home decor, and street food.',
-      image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      image: 'https://res.cloudinary.com/dt6ekj5b3/image/upload/v1743793217/owal2mq0zdfdc2x4xahs.jpg',
       location: 'Lajpat Nagar, New Delhi',
       visitors: '40K+ weekly visitors',
       timing: '11:00 AM - 9:00 PM',
@@ -259,7 +259,7 @@ export const markets = {
       id: 'khan-market',
       name: 'Khan Market',
       description: 'Upscale market known for boutique shops, bookstores, and international cuisine.',
-      image: 'https://images.unsplash.com/photo-1603123853880-a92fafb7809f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      image: 'https://res.cloudinary.com/dt6ekj5b3/image/upload/v1743793618/xscdpxthi0wjhi1ydlwk.webp',
       location: 'Khan Market, New Delhi',
       visitors: '25K+ weekly visitors',
       timing: '10:00 AM - 11:00 PM',
@@ -315,7 +315,7 @@ export const markets = {
       id: 'connaught-place',
       name: 'Connaught Place',
       description: 'Iconic circular market in Central Delhi known for shopping, eating, and entertainment.',
-      image: 'https://images.unsplash.com/photo-1548013146-72479768bada?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+      image: 'https://res.cloudinary.com/dt6ekj5b3/image/upload/v1743793618/obg9vhkiyemv3r48fvwk.jpg',
       location: 'Connaught Place, New Delhi',
       visitors: '90K+ weekly visitors',
       timing: '11:00 AM - 10:00 PM',

@@ -12,8 +12,20 @@ const MarketDetail = () => {
   const { addToCart } = useCart();
   const [addedProducts, setAddedProducts] = useState({});
   
+  console.log("Market details - ID:", id);
+  console.log("Market details - market data:", market);
+  
   if (!market) {
     return <Navigate to="/" replace />;
+  }
+
+  // Print image URLs to debug
+  console.log("Market image URL:", market.image);
+  if (market.shops && market.shops.length > 0) {
+    console.log("First shop image URL:", market.shops[0].image);
+    if (market.shops[0].products && market.shops[0].products.length > 0) {
+      console.log("First product image URL:", market.shops[0].products[0].image);
+    }
   }
 
   const containerVariants = {
@@ -76,7 +88,14 @@ const MarketDetail = () => {
           <img
             src={market.image}
             alt={market.name}
+            crossOrigin="anonymous"
             className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.onerror = null;
+              // Use a simpler fallback approach
+              e.target.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4QiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItaW1hZ2UiPjxyZWN0IHg9IjMiIHk9IjMiIHdpZHRoPSIxOCIgaGVpZ2h0PSIxOCIgcng9IjIiIHJ5PSIyIj48L3JlY3Q+PGNpcmNsZSBjeD0iOC41IiBjeT0iOC41IiByPSIxLjUiPjwvY2lyY2xlPjxwb2x5bGluZSBwb2ludHM9IjIxIDE1IDEzLjUgMTIgMTYgMTAgMjEgMTUiPjwvcG9seWxpbmU+PC9zdmc+';
+              console.log("Image load error handled with base64 SVG");
+            }}
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
             <h1 className="text-4xl font-bold text-white text-center">{market.name}</h1>
@@ -117,7 +136,14 @@ const MarketDetail = () => {
                       <img
                         src={shop.image}
                         alt={shop.name}
+                        crossOrigin="anonymous"
                         className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        onError={(e) => {
+                          e.target.onerror = null;
+                          // Use a simpler fallback approach
+                          e.target.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4QiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItc3RvcmUiPjxwYXRoIGQ9Ik0yMCA3IDEyIDMgNCBjMCA5LTYgNy00IDciIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxyZWN0IHg9IjIiIHk9IjMiIHdpZHRoPSIyMCIgaGVpZ2h0PSIxOCIgcng9IjIiIHJ5PSIyIj48L3JlY3Q+PHBhdGggZD0iTSAxMiA5IEwgMTIgMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxwYXRoIGQ9Ik0gMTcgOSBMIDE3IDE1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48cGF0aCBkPSJNIDcgOSBMIDcgMTUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjwvc3ZnPg==';
+                          console.log("Shop image load error handled with base64 SVG");
+                        }}
                       />
                       <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                         <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm py-1 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300">
@@ -172,7 +198,14 @@ const MarketDetail = () => {
                             <img
                               src={product.image}
                               alt={product.name}
+                              crossOrigin="anonymous"
                               className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                              onError={(e) => {
+                                e.target.onerror = null;
+                                // Use a simpler fallback approach
+                                e.target.src = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiB2aWV3Qm94PSIwIDAgMjQgMjQiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY0NzQ4QiIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJmZWF0aGVyIGZlYXRoZXItcGFja2FnZSI+PHBhdGggZD0iTTEyIDNsMjAgMTB2MTJMOCAyMi41IGwtOC01VjhsMTItNXoiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIvPjxsaW5lIHgxPSIxMiIgeTE9IjEyIiB4Mj0iNyIgeTI9IjExIj48L2xpbmU+PHBhdGggZD0iTSA5IDEyIEwgOSAxOCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIi8+PHBhdGggZD0iTSAxMSAxMCBMIDE2IDE1IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiLz48L3N2Zz4=';
+                                console.log("Product image load error handled with base64 SVG");
+                              }}
                             />
                             <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
                               <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm py-1.5 px-3 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 transform translate-y-2 group-hover:translate-y-0">

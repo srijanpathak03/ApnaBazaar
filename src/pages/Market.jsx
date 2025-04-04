@@ -44,7 +44,7 @@ const Market = () => {
           className="text-3xl font-bold text-gray-900 dark:text-white"
         >
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
-            Popular Markets
+            Popular Markets Near Me
           </span>
         </motion.h1>
         

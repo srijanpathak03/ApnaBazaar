@@ -1,6 +1,7 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const { sendWelcomeEmail } = require('../utils/emailService');
 const router = express.Router();
 
 // Environment variables
@@ -10,7 +11,7 @@ const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN || '7d';
 // Register new user
 router.post('/signup', async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
+    const { name, email, password, phone, role, shopName, businessType, address } = req.body;
     
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -19,14 +20,22 @@ router.post('/signup', async (req, res) => {
     }
     
     // Create new user
-    const user = new User({
+    const userData = {
       name,
       email,
       password,
       phone,
       role: role || 'user' // Default to user role if not specified
-    });
+    };
     
+    // Add vendor specific fields if role is vendor
+    if (role === 'vendor') {
+      userData.shopName = shopName;
+      userData.businessType = businessType;
+      userData.address = address;
+    }
+    
+    const user = new User(userData);
     await user.save();
     
     // Generate JWT token
@@ -35,6 +44,11 @@ router.post('/signup', async (req, res) => {
       JWT_SECRET,
       { expiresIn: JWT_EXPIRES_IN }
     );
+    
+    // Send welcome email
+    sendWelcomeEmail(user)
+      .then(() => console.log(`Welcome email sent to ${email}`))
+      .catch(err => console.error('Failed to send welcome email:', err));
     
     res.status(201).json({
       token,

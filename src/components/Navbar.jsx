@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { 
   Store, Scale, Tag, Sun, Moon, ShoppingBag, ShoppingCart, 
-  Menu, X, ChevronDown, Sparkles
+  Menu, X, ChevronDown, Sparkles, HelpCircle 
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
@@ -94,6 +94,11 @@ const Navbar = () => {
             <NavLink to="/pricing" className={navLinkClass}>
               <Tag className="w-5 h-5 mr-2" />
               <span>Pricing</span>
+            </NavLink>
+            
+            <NavLink to="/support" className={navLinkClass}>
+              <HelpCircle className="w-5 h-5 mr-2" />
+              <span>Support</span>
             </NavLink>
 
             {/* Dark Mode Toggle */}
@@ -230,6 +235,20 @@ const Navbar = () => {
               >
                 <Tag className="w-5 h-5 mr-3" />
                 <span className="font-medium">Pricing</span>
+              </NavLink>
+              
+              <NavLink 
+                to="/support" 
+                className={({ isActive }) => `
+                  flex items-center px-3 py-3 rounded-lg ${
+                    isActive 
+                    ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' 
+                    : 'text-gray-600 dark:text-gray-200'
+                  }
+                `}
+              >
+                <HelpCircle className="w-5 h-5 mr-3" />
+                <span className="font-medium">Support</span>
               </NavLink>
               
               {/* Mobile Auth Links */}

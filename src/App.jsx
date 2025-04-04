@@ -10,6 +10,7 @@ import ShopDetails from './pages/ShopDetails';
 import ProductDetails from './pages/ProductDetails';
 import Fair from './pages/Fair';
 import Pricing from './pages/Pricing';
+import Support from './pages/Support';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import VendorDashboard from './pages/VendorDashboard';
@@ -77,6 +78,7 @@ const AppRoutes = () => {
           <Route path="/market/:marketId/shop/:shopId/product/:productId" element={<ProductDetails />} />
           <Route path="/fair" element={<Fair />} />
           <Route path="/pricing" element={<Pricing />} />
+          <Route path="/support" element={<Support />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           

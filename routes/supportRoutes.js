@@ -3,14 +3,23 @@ const router = express.Router();
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-// Create a nodemailer transporter
+// Create a nodemailer transporter for Brevo
 const transporter = nodemailer.createTransport({
-  host: process.env.EMAIL_HOST || 'smtp.gmail.com',
-  port: process.env.EMAIL_PORT || 587,
-  secure: process.env.EMAIL_SECURE === 'true',
+  host: 'smtp-relay.brevo.com',
+  port: 587,
+  secure: false, // TLS
   auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+    user: '8554aa001@smtp-brevo.com', // Your Brevo SMTP login
+    pass: process.env.BREVO_SMTP_PASSWORD // Store your Master Password in .env file
+  }
+});
+
+// Verify connection configuration
+transporter.verify(function(error, success) {
+  if (error) {
+    console.error('SMTP connection verification failed:', error);
+  } else {
+    console.log('Brevo SMTP server is ready to take messages');
   }
 });
 
@@ -26,8 +35,8 @@ router.post('/ticket', async (req, res) => {
 
     // Create email content
     const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: process.env.SUPPORT_EMAIL || 'support@apnabazaar.com',
+      from: process.env.FROM_EMAIL || '8554aa001@smtp-brevo.com', // Can be any email you want it to appear from
+      to: process.env.SUPPORT_EMAIL || 'your-support-email@example.com',
       subject: `Support Request: ${subject}`,
       html: `
         <h2>New Support Request</h2>
@@ -42,11 +51,12 @@ router.post('/ticket', async (req, res) => {
     };
 
     // Send email
-    await transporter.sendMail(mailOptions);
-
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Support email sent:', info.messageId);
+    
     // Auto-reply to the user
     const autoReplyOptions = {
-      from: process.env.EMAIL_USER,
+      from: process.env.FROM_EMAIL || 'shivampathak2k3@gmail.com',
       to: email,
       subject: `We've received your message: ${subject}`,
       html: `
@@ -64,13 +74,18 @@ router.post('/ticket', async (req, res) => {
       `
     };
 
-    await transporter.sendMail(autoReplyOptions);
+    const replyInfo = await transporter.sendMail(autoReplyOptions);
+    console.log('Auto-reply sent:', replyInfo.messageId);
 
     res.status(200).json({ success: true, message: 'Support request submitted successfully' });
   } catch (error) {
     console.error('Error sending support email:', error);
-    res.status(500).json({ success: false, message: 'Failed to submit support request' });
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to submit support request',
+      error: error.message 
+    });
   }
 });
 
-module.exports = router; 
+module.exports = router;

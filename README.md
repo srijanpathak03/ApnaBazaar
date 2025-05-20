@@ -11,13 +11,25 @@ ApnaBazaar is a platform that bridges the gap between small vendors and customer
 - 🛍 **Online Orders & Reservations** – Reserve items or place orders for pickup/delivery.
 - 🌟 **Ratings & Reviews** – Share feedback and support small businesses.
 
+## 📸 Screenshots
+
+Here are some screenshots of the ApnaBazaar platform:
+
+| Screenshot | Description |
+|------------|-------------|
+| ![Markets Dashboard](./src/assets/marketsDashboard.png) | Markets Dashboard - Browse through various local markets |
+| ![Vendor Dashboard](./src/assets/VendorDashboard.png) | Vendor Dashboard - Manage products and orders |
+| ![Signup Page](./src/assets/Signup.png) | User Registration Interface |
+| ![Pricing](./src/assets/pricing.png) | Pricing Plans for Vendors |
+| ![Recent Customers](./src/assets/recentCustomer.png) | Recent Customer Activity |
+
 ## 🏗 Tech Stack
 
 ApnaBazaar is built using modern web technologies for a seamless and efficient experience:
 
 - **Frontend:** React.js, Tailwind CSS
 - **Backend:** Node.js, Express.js
-- **Database:** MongoDB 
+- **Database:** MongoDB / Firebase
 - **Authentication:** Firebase Authentication
 - **Hosting:** Vercel / Render
 

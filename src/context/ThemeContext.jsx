@@ -3,50 +3,63 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const ThemeContext = createContext();
 
 export const ThemeProvider = ({ children }) => {
-  // Initialize darkMode based on system preference or saved preference
+  // Initialize darkMode based on saved preference or system preference
   const [darkMode, setDarkMode] = useState(() => {
-    // Check for saved preference first
-    const savedMode = localStorage.getItem('darkMode');
+    // Check if we're in the browser environment
+    if (typeof window === 'undefined') return false;
     
-    if (savedMode !== null) {
-      return JSON.parse(savedMode);
+    try {
+      // Check for saved preference first
+      const savedMode = localStorage.getItem('darkMode');
+      
+      if (savedMode !== null) {
+        return JSON.parse(savedMode);
+      }
+      
+      // Fall back to system preference
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        return true;
+      }
+      
+      return false;
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
+      return false;
     }
-    
-    // // Fall back to system preference
-    // if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    //   return true;
-    // }
-    
-    return false;
   });
 
-  // Apply dark mode class immediately on mount and when darkMode changes
+  // Apply dark mode class when darkMode changes
   useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    if (typeof window === 'undefined') return;
+
+    try {
+      if (darkMode) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+      
+      // Save preference to localStorage - this ensures the toggle state persists
+      localStorage.setItem('darkMode', JSON.stringify(darkMode));
+    } catch (error) {
+      console.error('Error setting theme:', error);
     }
-    
-    // Save preference to localStorage
-    localStorage.setItem('darkMode', JSON.stringify(darkMode));
   }, [darkMode]);
 
-  // Force immediate application of dark mode on page load
-  // This helps prevent flash of wrong theme
-  useEffect(() => {
-    // This empty dependency array ensures it runs only once on mount
-    const isDark = localStorage.getItem('darkMode') === 'true' || 
-      (localStorage.getItem('darkMode') === null && 
-       window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
-       
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    }
-  }, []);
+  const toggleDarkMode = () => {
+    setDarkMode(prevMode => {
+      const newMode = !prevMode;
+      // Force immediate localStorage update for reliability
+      try {
+        localStorage.setItem('darkMode', JSON.stringify(newMode));
+      } catch (error) {
+        console.error('Error saving theme preference:', error);
+      }
+      return newMode;
+    });
+  };
 
-  const toggleDarkMode = () => setDarkMode(prev => !prev);
-
+  // Provide the theme context
   return (
     <ThemeContext.Provider value={{ darkMode, toggleDarkMode }}>
       {children}
@@ -54,4 +67,10 @@ export const ThemeProvider = ({ children }) => {
   );
 };
 
-export const useTheme = () => useContext(ThemeContext);
+export const useTheme = () => {
+  const context = useContext(ThemeContext);
+  if (context === undefined) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
+};

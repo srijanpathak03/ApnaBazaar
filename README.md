@@ -17,7 +17,7 @@ ApnaBazaar is built using modern web technologies for a seamless and efficient e
 
 - **Frontend:** React.js, Tailwind CSS
 - **Backend:** Node.js, Express.js
-- **Database:** MongoDB / Firebase
+- **Database:** MongoDB 
 - **Authentication:** Firebase Authentication
 - **Hosting:** Vercel / Render
 
